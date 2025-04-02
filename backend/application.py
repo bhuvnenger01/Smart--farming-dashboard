@@ -1,4 +1,4 @@
-# backend/app.py
+# backend/application.py
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import torch
@@ -15,8 +15,8 @@ import logging
 # Configure logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
-app = Flask(__name__)
-CORS(app)  # Enable CORS for React frontend
+application = Flask(__name__)
+CORS(application)  # Enable CORS for React frontend
 
 class Predictor:
     def __init__(self, run_id=1):
@@ -99,7 +99,7 @@ except FileNotFoundError as e:
     print(f"Error: {e}")
     exit(1)
 
-@app.route('/recommend', methods=['POST'])
+@application.route('/recommend', methods=['POST'])
 def recommend():
     """API endpoint for crop recommendation."""
     data = request.json
@@ -112,7 +112,7 @@ def recommend():
         logging.error(f"Error in recommendation: {e}")
         return jsonify({'error': str(e)}), 500
 
-@app.route('/predict_yield', methods=['POST'])
+@application.route('/predict_yield', methods=['POST'])
 def predict_yield():
     """API endpoint for yield prediction."""
     data = request.json
@@ -125,7 +125,7 @@ def predict_yield():
         logging.error(f"Error in yield prediction: {e}")
         return jsonify({'error': str(e)}), 500
 
-@app.route('/optimize_fertilizer', methods=['POST'])
+@application.route('/optimize_fertilizer', methods=['POST'])
 def optimize_fertilizer():
     """API endpoint for fertilizer optimization."""
     data = request.json
@@ -140,13 +140,13 @@ def optimize_fertilizer():
         logging.error(f"Error in fertilizer optimization: {e}")
         return jsonify({'error': str(e)}), 500
 
-@app.route('/weather', methods=['POST'])
+@application.route('/weather', methods=['POST'])
 def get_weather():
     """API endpoint to fetch real-time weather data."""
     data = request.json
     lat, lon = data['lat'], data['lon']
     api_key = '204365a64a6e01e8c3ee829aced1886b'  
-    url = f'http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}&units=metric'
+    url = f'http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&applicationid={api_key}&units=metric'
     try:
         response = requests.get(url).json()
         if response['cod'] != 200:
@@ -160,5 +160,9 @@ def get_weather():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@application.route('/')
+def home():
+    return "Hello from AWS Elastic Beanstalk!"
+
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    application.run(debug=True, host='0.0.0.0', port=5000)

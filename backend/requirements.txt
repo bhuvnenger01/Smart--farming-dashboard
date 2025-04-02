@@ -8,3 +8,4 @@ torch_geometric
 pandas
 scipy
 scikit-learn
+gunicorn
