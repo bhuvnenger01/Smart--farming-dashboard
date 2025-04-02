@@ -7,3 +7,4 @@ requests
 logging
 torch_geometric
 pandas
+scipy
