@@ -67,9 +67,9 @@ const App: React.FC = () => {
       // For a real implementation, uncomment this code
       
       const [recommendRes, yieldRes, fertilizerRes] = await Promise.all([
-        axios.post('http://localhost:5000/recommend', inputData),
-        axios.post('http://localhost:5000/predict_yield', inputData),
-        axios.post('http://localhost:5000/optimize_fertilizer', inputData),
+        axios.post('https://smart-farming-dashboard.onrender.com/recommend', inputData),
+        axios.post('https://smart-farming-dashboard.onrender.com/predict_yield', inputData),
+        axios.post('https://smart-farming-dashboard.onrender.com/optimize_fertilizer', inputData),
       ]);
       
       
