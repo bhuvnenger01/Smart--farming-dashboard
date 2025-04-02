@@ -2,7 +2,6 @@ flask
 flask_cors
 torch
 numpy
-transformers
 requests
 logging
 torch_geometric
