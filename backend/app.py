@@ -145,7 +145,7 @@ def get_weather():
     """API endpoint to fetch real-time weather data."""
     data = request.json
     lat, lon = data['lat'], data['lon']
-    api_key = '204365a64a6e01e8c3ee829aced1886b'  # Replace with your OpenWeather API key
+    api_key = '204365a64a6e01e8c3ee829aced1886b'  
     url = f'http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}&units=metric'
     try:
         response = requests.get(url).json()
