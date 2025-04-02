@@ -10,6 +10,10 @@ from models.lstm import LSTMYieldPredictor
 from utils.data_processing import preprocess_input
 import requests
 import os
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for React frontend
@@ -99,30 +103,41 @@ except FileNotFoundError as e:
 def recommend():
     """API endpoint for crop recommendation."""
     data = request.json
+    logging.debug(f"Received data for recommendation: {data}")
     try:
         crops, probs = predictor.recommend_crop(data, data.get('season', 'kharif'))
+        logging.debug(f"Recommended crops: {crops} with probabilities: {probs}")
         return jsonify({'crops': crops, 'probs': probs})
     except Exception as e:
+        logging.error(f"Error in recommendation: {e}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/predict_yield', methods=['POST'])
 def predict_yield():
     """API endpoint for yield prediction."""
     data = request.json
+    logging.debug(f"Received data for yield prediction: {data}")
     try:
         yield_pred = predictor.predict_yield(data)
+        logging.debug(f"Predicted yield: {yield_pred}")
         return jsonify({'yield': yield_pred})
     except Exception as e:
+        logging.error(f"Error in yield prediction: {e}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/optimize_fertilizer', methods=['POST'])
 def optimize_fertilizer():
     """API endpoint for fertilizer optimization."""
     data = request.json
+    logging.debug(f"Received data for fertilizer optimization: {data}")
     try:
         fertilizer_rec = predictor.optimize_fertilizer(data)
+        # Convert np.int64 values to Python int for JSON serialization
+        fertilizer_rec = {key: int(value) for key, value in fertilizer_rec.items()}
+        logging.debug(f"Fertilizer recommendations: {fertilizer_rec}")
         return jsonify(fertilizer_rec)
     except Exception as e:
+        logging.error(f"Error in fertilizer optimization: {e}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/weather', methods=['POST'])

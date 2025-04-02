@@ -1,6 +1,6 @@
 # train.py
 import torch
-from torch_geometric.nn import GCNConv  # Updated to GCNConv as per your reverted project state
+from torch_geometric.nn import GCNConv  
 from sklearn.ensemble import RandomForestClassifier
 from models.gcn import GCN
 from models.embedding_predictor import EmbeddingPredictor
