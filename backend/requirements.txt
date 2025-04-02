@@ -8,4 +8,4 @@ logging
 torch_geometric
 pandas
 scipy
-sklearn
+scikit-learn
